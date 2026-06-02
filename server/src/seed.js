@@ -3,6 +3,8 @@ import bcrypt from 'bcryptjs';
 import dotenv from 'dotenv';
 import User from './models/User.js';
 import Job from './models/Job.js';
+import Event from './models/Event.js';
+import EventRegistration from './models/EventRegistration.js';
 
 dotenv.config();
 
@@ -424,6 +426,80 @@ const seedData = async () => {
     ]);
 
     console.log(`✅ Created ${jobs.length} jobs`);
+
+    // --- Clear Event Data ---
+    await Event.deleteMany({});
+    await EventRegistration.deleteMany({});
+
+    // --- Create Event Slots ---
+    const slots = [
+      { time: '09:00 AM - 10:00 AM', maxCapacity: 10, bookedCount: 1 },
+      { time: '10:00 AM - 11:00 AM', maxCapacity: 10, bookedCount: 0 },
+      { time: '11:00 AM - 12:00 PM', maxCapacity: 10, bookedCount: 0 },
+    ];
+
+    // --- Create Events ---
+    const events = await Event.insertMany([
+      {
+        title: 'ABC Construction Mega Recruitment Drive',
+        company: companies[0]._id,
+        companyName: 'BuildRight Construction Pvt Ltd',
+        description: 'Mega hiring event for construction helper, paint specialist and site operators. Spot selection and instant offer letter rollout.',
+        hiringType: ['Daily Workers', 'Contract Workers'],
+        location: { type: 'Point', coordinates: [72.8777, 19.0760], address: 'BKC Phase 2 ground', city: 'Mumbai' },
+        latitude: 19.0760,
+        longitude: 72.8777,
+        eventDate: new Date(Date.now() + 86400000 * 3), // 3 days in future
+        startTime: '09:00',
+        endTime: '17:00',
+        positionsCount: 80,
+        requiredSkills: ['construction', 'painter', 'helper'],
+        salaryRange: '₹600 - ₹950 / day',
+        registrationDeadline: new Date(Date.now() + 86400000 * 2), // 2 days in future
+        eventMode: 'offline',
+        bannerImage: 'https://images.unsplash.com/photo-1541888946425-d81bb19240f5?w=800&auto=format&fit=crop&q=60',
+        slots: slots,
+      },
+      {
+        title: 'IT Internship & Developer Fair 2026',
+        company: companies[1]._id,
+        companyName: 'CleanHome IT & Facility Group',
+        description: 'Campus placement and early career internship drive. Looking for tech enthusiasts, support staff, and database helpers.',
+        hiringType: ['Internship', 'Part-Time'],
+        location: { type: 'Point', coordinates: [77.2090, 28.6139], address: 'CleanHome Tech Park, Okhla', city: 'Delhi' },
+        latitude: 28.6139,
+        longitude: 77.2090,
+        eventDate: new Date(Date.now() + 86400000 * 5), // 5 days in future
+        startTime: '10:00',
+        endTime: '16:00',
+        positionsCount: 25,
+        requiredSkills: ['helper', 'electrician'],
+        salaryRange: '₹15,000 - ₹20,000 / month',
+        registrationDeadline: new Date(Date.now() + 86400000 * 4),
+        eventMode: 'hybrid',
+        virtualLink: 'https://meet.google.com/abc-defg-hij',
+        bannerImage: 'https://images.unsplash.com/photo-1515187029135-18ee286d815b?w=800&auto=format&fit=crop&q=60',
+        slots: slots,
+      }
+    ]);
+    console.log(`✅ Created ${events.length} seed hiring events`);
+
+    // Register Rajesh Kumar (workers[0]) to the first event
+    await EventRegistration.create({
+      event: events[0]._id,
+      user: workers[0]._id,
+      name: workers[0].name,
+      phone: workers[0].phone,
+      email: workers[0].email || 'rajesh@kaamsetu.com',
+      skills: workers[0].workerProfile?.skills || [],
+      registrationId: 'KS-EVT-772188',
+      qrCode: 'KS-EVT-772188',
+      status: 'registered',
+      interviewSlot: '09:00 AM - 10:00 AM',
+      rankingScore: 88,
+    });
+    console.log(`✅ Created seed registration for ${workers[0].name}`);
+
     console.log('\n📋 Demo Credentials:');
     console.log('   Worker: phone=9876543210, password=123456');
     console.log('   Company: phone=9900000001, password=123456');

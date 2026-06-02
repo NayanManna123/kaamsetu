@@ -14,6 +14,8 @@ import MyJobs from './pages/worker/MyJobs';
 import WorkerProfile from './pages/worker/WorkerProfile';
 import WithdrawPage from './pages/worker/WithdrawPage';
 import JobDetailsPage from './pages/worker/JobDetailsPage';
+import EventsList from './pages/worker/EventsList';
+import EventDetails from './pages/worker/EventDetails';
 
 // Company Pages
 import CompanyDashboard from './pages/company/CompanyDashboard';
@@ -21,6 +23,9 @@ import PostJob from './pages/company/PostJob';
 import SearchWorkers from './pages/company/SearchWorkers';
 import Hires from './pages/company/Hires';
 import CompanyProfile from './pages/company/CompanyProfile';
+import CompanyEvents from './pages/company/CompanyEvents';
+import CreateEvent from './pages/company/CreateEvent';
+import EventDashboard from './pages/company/EventDashboard';
 
 // Shared Pages
 import ChatRoom from './pages/chat/ChatRoom';
@@ -75,7 +80,7 @@ const AppRoutes = () => {
       {/* Public Routes */}
       <Route
         path="/"
-        element={
+        element = {
           user ? (
             <Navigate to={user.role === 'company' ? '/company/dashboard' : '/worker/home'} replace />
           ) : (
@@ -86,7 +91,7 @@ const AppRoutes = () => {
 
       {/* Worker Routes */}
       <Route
-        element={
+        element = {
           <ProtectedRoute requiredRole="worker">
             <AppLayout />
           </ProtectedRoute>
@@ -99,12 +104,14 @@ const AppRoutes = () => {
         <Route path="/worker/profile" element={<WorkerProfile />} />
         <Route path="/worker/chat" element={<ChatRoom />} />
         <Route path="/worker/withdraw" element={<WithdrawPage />} />
+        <Route path="/worker/events" element={<EventsList />} />
+        <Route path="/worker/events/:id" element={<EventDetails />} />
         <Route path="/job/:jobId" element={<JobDetailsPage />} />
       </Route>
 
       {/* Company Routes */}
       <Route
-        element={
+        element = {
           <ProtectedRoute requiredRole="company">
             <AppLayout />
           </ProtectedRoute>
@@ -116,6 +123,9 @@ const AppRoutes = () => {
         <Route path="/company/hires" element={<Hires />} />
         <Route path="/company/profile" element={<CompanyProfile />} />
         <Route path="/company/chat" element={<ChatRoom />} />
+        <Route path="/company/events" element={<CompanyEvents />} />
+        <Route path="/company/events/create" element={<CreateEvent />} />
+        <Route path="/company/events/:id/dashboard" element={<EventDashboard />} />
       </Route>
 
       {/* Shared Protected Routes */}

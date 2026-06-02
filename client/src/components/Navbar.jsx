@@ -16,7 +16,8 @@ import {
   ClipboardList, 
   MessageSquare,
   Settings,
-  LogOut
+  LogOut,
+  Calendar
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useNotifications } from '../context/NotificationContext';
@@ -35,6 +36,7 @@ const Navbar = () => {
   const WORKER_LINKS = [
     { to: '/worker/home', icon: Home, label: 'Home' },
     { to: '/worker/search', icon: Search, label: 'Search Jobs' },
+    { to: '/worker/events', icon: Calendar, label: 'Events' },
     { to: '/worker/requests', icon: Inbox, label: 'Hire Requests', hasBadge: true },
     { to: '/worker/jobs', icon: Briefcase, label: 'My Jobs' },
     { to: '/worker/chat', icon: MessageSquare, label: 'Messages' },
@@ -44,6 +46,7 @@ const Navbar = () => {
   const COMPANY_LINKS = [
     { to: '/company/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
     { to: '/company/post-job', icon: PlusCircle, label: 'Post Job' },
+    { to: '/company/events', icon: Calendar, label: 'Events' },
     { to: '/company/workers', icon: Users, label: 'Find Workers' },
     { to: '/company/hires', icon: ClipboardList, label: 'My Hires', hasBadge: true },
     { to: '/company/chat', icon: MessageSquare, label: 'Messages' },

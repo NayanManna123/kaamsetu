@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 import { NavLink } from 'react-router-dom';
-import { Home, Search, Inbox, Briefcase, User, LayoutDashboard, PlusCircle, Users, ClipboardList, MessageSquare } from 'lucide-react';
+import { Home, Search, Inbox, Briefcase, User, LayoutDashboard, PlusCircle, Users, ClipboardList, MessageSquare, Calendar } from 'lucide-react';
 import NotificationContext from '../context/NotificationContext';
 
 /**
@@ -10,18 +10,18 @@ import NotificationContext from '../context/NotificationContext';
  */
 const WORKER_TABS = [
   { to: '/worker/home', icon: Home, label: 'Home' },
-  { to: '/worker/search', icon: Search, label: 'Search' },
+  { to: '/worker/search', icon: Search, label: 'Jobs' },
+  { to: '/worker/events', icon: Calendar, label: 'Events' },
   { to: '/worker/requests', icon: Inbox, label: 'Requests', badgeKey: 'requests' },
-  { to: '/worker/chat', icon: MessageSquare, label: 'Chat', badgeKey: 'chat' },
   { to: '/worker/profile', icon: User, label: 'Profile' },
 ];
 
 const COMPANY_TABS = [
   { to: '/company/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
   { to: '/company/post-job', icon: PlusCircle, label: 'Post Job' },
+  { to: '/company/events', icon: Calendar, label: 'Events' },
   { to: '/company/workers', icon: Users, label: 'Workers' },
-  { to: '/company/hires', icon: ClipboardList, label: 'Hires', badgeKey: 'hires' },
-  { to: '/company/chat', icon: MessageSquare, label: 'Chat', badgeKey: 'chat' },
+  { to: '/company/profile', icon: User, label: 'Profile' },
 ];
 
 const BottomNav = ({ role = 'worker' }) => {

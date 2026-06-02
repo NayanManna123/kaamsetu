@@ -19,6 +19,7 @@ import escrowRoutes from './src/routes/escrow.js';
 import attendanceRoutes from './src/routes/attendance.js';
 import dashboardRoutes from './src/routes/dashboard.js';
 import settingsRoutes from './src/routes/settings.js';
+import eventRoutes from './src/routes/events.js';
 import { applyToJob } from './src/controllers/applicationController.js';
 import { protect } from './src/middleware/auth.js';
 import roleGuard from './src/middleware/roleGuard.js';
@@ -62,6 +63,7 @@ app.use('/api/escrow', escrowRoutes);
 app.use('/api/attendance', attendanceRoutes);
 app.use('/api/dashboard', dashboardRoutes);
 app.use('/api/settings', settingsRoutes);
+app.use('/api/events', eventRoutes);
 
 // Direct alias and custom endpoints for job applications and online check
 app.post('/api/apply-job', protect, roleGuard('worker'), applyToJob);
@@ -99,6 +101,18 @@ io.on('connection', (socket) => {
   // Leave chat room
   socket.on('leaveChat', (roomId) => {
     socket.leave(`chat_${roomId}`);
+  });
+
+  // Join event Q&A chat room
+  socket.on('joinEventChat', (eventId) => {
+    socket.join(`event_chat_${eventId}`);
+    console.log(`User joined event chat: event_chat_${eventId}`);
+  });
+
+  // Leave event Q&A chat room
+  socket.on('leaveEventChat', (eventId) => {
+    socket.leave(`event_chat_${eventId}`);
+    console.log(`User left event chat: event_chat_${eventId}`);
   });
 
   // Handle chat message

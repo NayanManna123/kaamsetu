@@ -98,3 +98,22 @@ export const walletAPI = {
   getTransactions: (params) => api.get('/wallet/transactions', { params }),
   withdraw: (data) => api.post('/wallet/withdraw', data),
 };
+
+// ==================== EVENTS ====================
+export const eventsAPI = {
+  create: (data) => api.post('/events/create', data),
+  update: (id, data) => api.put(`/events/update/${id}`, data),
+  delete: (id) => api.delete(`/events/delete/${id}`),
+  getCompanyEvents: () => api.get('/events/company'),
+  getAll: (params) => api.get('/events', { params }),
+  getById: (id) => api.get(`/events/${id}`),
+  register: (data) => api.post('/events/register', data),
+  checkin: (data) => api.post('/events/checkin', data),
+  getAnalytics: (id) => api.get(`/events/${id}/analytics`),
+  bookSlot: (id, data) => api.post(`/events/${id}/book-slot`, data),
+  updateCandidateStatus: (id, registrationId, data) => api.put(`/events/${id}/candidates/${registrationId}/status`, data),
+  bulkUpdateCandidateStatus: (id, data) => api.put(`/events/${id}/candidates/bulk-status`, data),
+  getChat: (id) => api.get(`/events/${id}/chat`),
+  sendChatMessage: (id, data) => api.post(`/events/${id}/chat`, data),
+  getCertificate: (id) => api.get(`/events/${id}/certificate`),
+};
